@@ -38,14 +38,21 @@ df_branch_raw['BRANCH_PHONE'] = "("+df_branch_raw['BRANCH_PHONE'].str[:3]+")" + 
     "-"+df_branch_raw['BRANCH_PHONE'].str[6:]
 
 # CREDIT DATA
-df_credit = pd.read_json('cdw_sapp_credit.json', lines=True)
+df_credit_raw = pd.read_json('cdw_sapp_credit.json', lines=True)
 
+# FORMAT DATA
 
-# print(df_branch.head())
-# print(df_credit.head())
-# print(df_customer.head())
-# print(df_loan.head())
-# df_branch.info()
-# df_credit.info()
-# df_customer.info()
-# df_loan.info()
+df_credit_raw['MONTH'] = df_credit_raw['MONTH'].map(str)
+df_credit_raw['MONTH'] = df_credit_raw['MONTH'].str.zfill(2)
+
+df_credit_raw['DAY'] = df_credit_raw['DAY'].map(str)
+df_credit_raw['DAY'] = df_credit_raw['DAY'].str.zfill(2)
+
+df_credit_raw['TIMEID'] = df_credit_raw['YEAR'].map(
+    str) + df_credit_raw['MONTH'].map(str) + df_credit_raw['DAY'].map(str)
+
+creditCols = ['CREDIT_CARD_NO', 'TIMEID', 'CUST_SSN', 'BRANCH_CODE',
+              'TRANSACTION_TYPE', 'TRANSACTION_VALUE', 'TRANSACTION_ID']
+
+df_credit_formatted = df_credit_raw[creditCols]
+
