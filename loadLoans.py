@@ -6,5 +6,5 @@ x = requests.get(
 
 print('Status code:', x.status_code)
 
-df_loan = pd.read_json(
-    'https://raw.githubusercontent.com/platformps/LoanDataset/main/loan_data.json')
+df_loan = pd.read_json(x.text)
+print(df_loan.head())
