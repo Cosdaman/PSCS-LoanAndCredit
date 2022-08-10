@@ -1,4 +1,17 @@
+import mysql.connector
 import pandas as pd
+from pyspark.sql import SparkSession
+from dotenv import dotenv_values
+
+config = dotenv_values(".env")
+dbuser = config["dbuser"]
+dbpass = config["dbpass"]
+
+# Create PySpark SparkSession
+spark = SparkSession.builder \
+    .master("local[1]") \
+    .appName("LoadCredit") \
+    .getOrCreate()
 
 
 # CUSTOMER DATA
@@ -59,3 +72,19 @@ creditCols = ['CREDIT_CARD_NO', 'TIMEID', 'CUST_SSN', 'BRANCH_CODE',
 
 
 df_credit_formatted = df_credit_raw[creditCols]
+
+#write schemas for each table
+
+
+sparkDF_Cust = spark.createDataFrame(df_cust_formatted)
+sparkDF_Branch = spark.createDataFrame(df_branch_formatted)
+sparkDF_Credit = spark.createDataFrame(df_credit_formatted)
+
+db_connection = mysql.connector.connect(user=dbuser, password=dbpass)
+
+dropDB = "DROP DATABASE IF EXISTS creditcard_capstone;"
+createDB = "CREATE DATABASE creditcard_capstone;"
+
+db_cursor = db_connection.cursor()
+db_cursor.execute(dropDB)
+db_cursor.execute(createDB)
