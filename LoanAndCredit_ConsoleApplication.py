@@ -6,6 +6,7 @@ def mainMenu():
     print("Hello, please select the data you wish to view from the following options:")
     print('1 - Transactions')
     print('2 - Customers')
+    print('3 - Load Data into Database')
     print('0 - Exit')
 
 
