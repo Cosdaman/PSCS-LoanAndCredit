@@ -1,4 +1,6 @@
 from art import *
+import loadCredit
+
 
 def mainMenu():
     print("Hello, please select the data you wish to view from the following options:")
@@ -22,6 +24,11 @@ while catChoice != '0':
 
         case "2":
             print("customers")
+            catChoice = input("Choice: ")
+
+        case "3":
+            loadCredit.loadData()
+            mainMenu()
             catChoice = input("Choice: ")
 
         case "0":
