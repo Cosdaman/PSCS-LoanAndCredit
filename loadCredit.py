@@ -3,6 +3,7 @@ import pandas as pd
 from pyspark.sql import SparkSession
 from dotenv import dotenv_values
 
+
 config = dotenv_values(".env")
 dbuser = config["dbuser"]
 dbpass = config["dbpass"]
@@ -73,8 +74,6 @@ creditCols = ['CREDIT_CARD_NO', 'TIMEID', 'CUST_SSN', 'BRANCH_CODE',
 
 df_credit_formatted = df_credit_raw[creditCols]
 
-#write schemas for each table
-
 
 sparkDF_Cust = spark.createDataFrame(df_cust_formatted)
 sparkDF_Branch = spark.createDataFrame(df_branch_formatted)
@@ -88,3 +87,27 @@ createDB = "CREATE DATABASE creditcard_capstone;"
 db_cursor = db_connection.cursor()
 db_cursor.execute(dropDB)
 db_cursor.execute(createDB)
+
+sparkDF_Cust.write.format("jdbc") \
+    .mode("overwrite") \
+    .option("url", "jdbc:mysql://localhost:3306/creditcard_capstone") \
+    .option("dbtable", "creditcard_capstone.CDW_SAPP_CUSTOMER") \
+    .option("user", "root") \
+    .option("password", "root") \
+    .save()
+
+sparkDF_Credit.write.format("jdbc") \
+    .mode("overwrite") \
+    .option("url", "jdbc:mysql://localhost:3306/creditcard_capstone") \
+    .option("dbtable", "creditcard_capstone.CDW_SAPP_CREDIT_CARD") \
+    .option("user", "root") \
+    .option("password", "root") \
+    .save()
+
+sparkDF_Branch.write.format("jdbc") \
+    .mode("overwrite") \
+    .option("url", "jdbc:mysql://localhost:3306/creditcard_capstone") \
+    .option("dbtable", "creditcard_capstone.CDW_SAPP_BRANCH") \
+    .option("user", "root") \
+    .option("password", "root") \
+    .save()
