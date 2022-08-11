@@ -131,3 +131,4 @@ dmypy.json
 /.ignore
 
 test.ipynb
+test.py
