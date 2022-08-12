@@ -158,4 +158,4 @@ def loadData():
         db_cursor.execute(i)
 
     spark.stop()
-    print("Data import complete.")
+    print("Credit data import complete.")
