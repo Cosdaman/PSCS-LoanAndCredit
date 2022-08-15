@@ -89,6 +89,8 @@ def loadData():
 
     df_loan = pd.read_json(x.text)
 
+    x.close()
+
     sparkDF_Cust = spark.createDataFrame(df_cust_formatted)
     sparkDF_Branch = spark.createDataFrame(df_branch_formatted)
     sparkDF_Credit = spark.createDataFrame(df_credit_formatted)
