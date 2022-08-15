@@ -1,13 +1,15 @@
 from art import *
-import loadCredit
+import loadCreditAndLoan
+import requests
 
 
 def mainMenu():
     print("--Main Menu--")
-    print("Hello, please select the data you wish to view from the following options:")
-    print('1 - Transactions')
-    print('2 - Customers')
+    print("Hello, please select from the following options:")
+    print('1 - View Transactions')
+    print('2 - View/Edit Customer data')
     print('3 - Load Data into Database')
+    print('4 - View API Status Code')
     print('0 - Exit')
     choice = input("Choice: ")
     return choice
@@ -27,7 +29,11 @@ def mainMenuTree(mChoice):
                 mChoice = mainMenu()
 
             case "3":
-                loadCredit.loadData()
+                loadCreditAndLoan.loadData()
+                mChoice = mainMenu()
+
+            case "4":
+                statusCodeApi()
                 mChoice = mainMenu()
 
             case "0":
@@ -54,17 +60,17 @@ def transactionsTree(tChoice):
         match tChoice:
             case '1':
                 print('Date and Zipcode')
-                #ask month, year, zipcode
+                # ask month, year, zipcode
                 tChoice = transactionsMenu()
 
             case '2':
                 print('Transaction Type')
-                #ask transaction type
+                # ask transaction type
                 tChoice = transactionsMenu()
 
             case '3':
                 print('Branches in a certain state')
-                #ask for state
+                # ask for state
                 tChoice = transactionsMenu()
 
             case "0":
@@ -93,21 +99,21 @@ def customerTree(cChoice):
         match cChoice:
             case '1':
                 print('check details')
-                #ask ssn
+                # ask ssn
                 cChoice = customerMenu()
 
             case '2':
-                #ask ssn
+                # ask ssn
                 print('modify details')
                 cChoice = customerMenu()
 
             case '3':
-                #ask creditcard number, month, year
+                # ask creditcard number, month, year
                 print('generate monthly bill')
                 cChoice = customerMenu()
 
             case '4':
-                #ask first date and second date, show format
+                # ask first date and second date, show format
                 print('display transactions')
                 cChoice = customerMenu()
 
@@ -118,6 +124,14 @@ def customerTree(cChoice):
                 print(
                     "Invalid choice, please pick valid options from the menu.")
                 cChoice = transactionsMenu()
+
+
+def statusCodeApi():
+    x = requests.get(
+        'https://raw.githubusercontent.com/platformps/LoanDataset/main/loan_data.json')
+
+    print('Status code:', x.status_code)
+    x.close()
 
 
 intro = "LOAN      AND     CREDIT"

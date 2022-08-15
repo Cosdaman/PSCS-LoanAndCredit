@@ -2,10 +2,11 @@ import mysql.connector
 import pandas as pd
 from pyspark.sql import SparkSession
 from dotenv import dotenv_values
+import requests
 
 
 def loadData():
-    print('Beginning data import...')
+    print('Beginning data import from files and API...')
 
     config = dotenv_values(".env")
     dbuser = config["dbuser"]
@@ -83,9 +84,15 @@ def loadData():
 
     df_credit_formatted = df_credit_raw[creditCols]
 
+    x = requests.get(
+        'https://raw.githubusercontent.com/platformps/LoanDataset/main/loan_data.json')
+
+    df_loan = pd.read_json(x.text)
+
     sparkDF_Cust = spark.createDataFrame(df_cust_formatted)
     sparkDF_Branch = spark.createDataFrame(df_branch_formatted)
     sparkDF_Credit = spark.createDataFrame(df_credit_formatted)
+    sparkDF_Loan = spark.createDataFrame(df_loan)
 
     db_connection = mysql.connector.connect(user=dbuser, password=dbpass)
 
@@ -118,6 +125,14 @@ def loadData():
         .option("dbtable", "creditcard_capstone.CDW_SAPP_BRANCH") \
         .option("user", dbuser) \
         .option("password", dbpass) \
+        .save()
+
+    sparkDF_Loan.write.format("jdbc") \
+        .mode("overwrite") \
+        .option("url", "jdbc:mysql://localhost:3306/creditcard_capstone") \
+        .option("dbtable", "creditcard_capstone.CDW_SAPP_LOAN_APPLICATION") \
+        .option("user", 'root') \
+        .option("password", 'root') \
         .save()
 
     print("Converting SQL data types...")
