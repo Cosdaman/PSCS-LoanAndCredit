@@ -123,7 +123,7 @@ def customerTree(cChoice):
             case _:
                 print(
                     "Invalid choice, please pick valid options from the menu.")
-                cChoice = transactionsMenu()
+                cChoice = customerMenu()
 
 
 def statusCodeApi():
