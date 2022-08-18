@@ -133,8 +133,8 @@ def loadData():
         .mode("overwrite") \
         .option("url", "jdbc:mysql://localhost:3306/creditcard_capstone") \
         .option("dbtable", "creditcard_capstone.CDW_SAPP_LOAN_APPLICATION") \
-        .option("user", 'root') \
-        .option("password", 'root') \
+        .option("user", dbuser) \
+        .option("password", dbpass) \
         .save()
 
     print("Converting SQL data types...")
