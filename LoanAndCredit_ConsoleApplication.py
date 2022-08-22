@@ -15,6 +15,7 @@ def cls():
 
 
 def mainMenu():
+    cls()
     print("--Main Menu--")
     print("Hello, please select from the following options:")
     print('1 - View Transactions')
@@ -56,6 +57,7 @@ def mainMenuTree(mChoice):
 
 
 def transactionsMenu():
+    cls()
     print("--Transactions Menu--")
     print("Choose to display total transactions from the following options:")
     print("1 - Month, Year, and Zip Code")
@@ -94,6 +96,7 @@ def transactionsTree(tChoice):
 
 
 def customerMenu():
+    cls()
     print("--Customer Menu--")
     print("Choose from the following options:")
     print("1 - Check details of a customer")
@@ -159,6 +162,7 @@ print("Loaded.")
 
 cls()
 
+print(Art)
 mChoice = mainMenu()
 mainMenuTree(mChoice)
 
