@@ -1,6 +1,17 @@
+import os
 from art import *
 import loadCreditAndLoan
 import requests
+from pyspark.sql import SparkSession
+from utils import customer_details
+from dotenv import dotenv_values
+config = dotenv_values(".env")
+dbuser = config["dbuser"]
+dbpass = config["dbpass"]
+
+
+def cls():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def mainMenu():
@@ -29,7 +40,7 @@ def mainMenuTree(mChoice):
                 mChoice = mainMenu()
 
             case "3":
-                loadCreditAndLoan.loadData()
+                loadCreditAndLoan.loadData(spark)
                 mChoice = mainMenu()
 
             case "4":
@@ -98,8 +109,7 @@ def customerTree(cChoice):
     while cChoice != '0':
         match cChoice:
             case '1':
-                print('check details')
-                # ask ssn
+                customer_details.checkCustDetails(spark, dbuser, dbpass)
                 cChoice = customerMenu()
 
             case '2':
@@ -135,8 +145,19 @@ def statusCodeApi():
 
 
 intro = "LOAN      AND     CREDIT"
+
 Art = text2art(intro, font='doom')
 print(Art)
+print("Loading...")
+
+spark = SparkSession.builder \
+    .master("local[1]") \
+    .appName("Kevin Ang Console App") \
+    .getOrCreate()
+
+print("Loaded.")
+
+cls()
 
 mChoice = mainMenu()
 mainMenuTree(mChoice)

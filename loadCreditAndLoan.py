@@ -1,22 +1,15 @@
 import mysql.connector
 import pandas as pd
-from pyspark.sql import SparkSession
 from dotenv import dotenv_values
 import requests
 
 
-def loadData():
+def loadData(spark):
     print('Beginning data import from files and API...')
 
     config = dotenv_values(".env")
     dbuser = config["dbuser"]
     dbpass = config["dbpass"]
-
-    # Create PySpark SparkSession
-    spark = SparkSession.builder \
-        .master("local[1]") \
-        .appName("LoadCredit") \
-        .getOrCreate()
 
     # CUSTOMER DATA
     # read data
@@ -174,5 +167,4 @@ def loadData():
     for i in alterTables:
         db_cursor.execute(i)
 
-    spark.stop()
     print("Credit data import complete.")
