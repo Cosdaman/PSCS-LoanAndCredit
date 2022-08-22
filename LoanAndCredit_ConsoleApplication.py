@@ -1,10 +1,15 @@
+from utils.transaction_details import zipcodeTransactions
 import os
 from art import *
 import loadCreditAndLoan
 import requests
 from pyspark.sql import SparkSession
 from utils import customer_details
+from utils import transaction_details
 from dotenv import dotenv_values
+import pandas as pd
+
+pd.options.mode.chained_assignment = None
 config = dotenv_values(".env")
 dbuser = config["dbuser"]
 dbpass = config["dbpass"]
@@ -42,7 +47,7 @@ def mainMenuTree(mChoice):
                 mChoice = mainMenu()
 
             case "3":
-                loadCreditAndLoan.loadData(spark,dbuser,dbpass)
+                loadCreditAndLoan.loadData(spark, dbuser, dbpass)
                 mChoice = mainMenu()
 
             case "4":
@@ -73,8 +78,7 @@ def transactionsTree(tChoice):
     while tChoice != '0':
         match tChoice:
             case '1':
-                print('Date and Zipcode')
-                # ask month, year, zipcode
+                transaction_details.zipcodeTransactions(spark, dbuser, dbpass)
                 tChoice = transactionsMenu()
 
             case '2':
