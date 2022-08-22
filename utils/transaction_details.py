@@ -1,3 +1,6 @@
+from re import search
+
+
 def zipcodeTransactions(spark, dbuser, dbpass):
     cust_spark_df = spark.read.format("jdbc").options(driver="com.mysql.cj.jdbc.Driver",
                                                       user=dbuser,
@@ -32,12 +35,29 @@ def zipcodeTransactions(spark, dbuser, dbpass):
     trans_filtered = trans_filtered.sort_values(by=['DAY'])
 
     print(trans_filtered)
-
     input('Press enter to continue...')
     return 0
 
 
 def typeTransactions(spark, dbuser, dbpass):
+
+    cc_spark_df = spark.read.format("jdbc").options(driver="com.mysql.cj.jdbc.Driver",
+                                                    user=dbuser,
+                                                    password=dbpass,
+                                                    url="jdbc:mysql://localhost:3306/creditcard_capstone",
+                                                    dbtable="creditcard_capstone.CDW_SAPP_CREDIT_CARD").load()
+
+    cc_pandas_df = cc_spark_df.toPandas()
+    types = cc_pandas_df['TRANSACTION_TYPE'].unique()
+    print("Select a transaction type from the following list:")
+    for i in types:
+        print(i)
+
+    search_type = input("Transaction type to search for: ")
+    trans_filtered = cc_pandas_df[cc_pandas_df.TRANSACTION_TYPE.isin(
+        [search_type.Title()])]
+    print(trans_filtered)
+
     input('Press enter to continue...')
     return 0
 
