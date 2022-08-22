@@ -10,17 +10,20 @@ def checkCustDetails(spark, dbuser, dbpass):
     ssn = input("SSN: ")
     res = cust_pandas_df[cust_pandas_df['SSN'] == int(ssn)]
     print(res)
-
+    input('Press enter to continue...')
     return 0
 
 
-def modifyCustDetails():
+def modifyCustDetails(spark, dbuser, dbpass):
+    input('Press enter to continue...')
     return 0
 
 
-def monthlyBill():
+def monthlyBill(spark, dbuser, dbpass):
+    input('Press enter to continue...')
     return 0
 
 
-def custTransactionsTwoDates():
+def custTransactionsTwoDates(spark, dbuser, dbpass):
+    input('Press enter to continue...')
     return 0

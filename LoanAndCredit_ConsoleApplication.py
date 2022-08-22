@@ -16,6 +16,7 @@ def cls():
 
 def mainMenu():
     cls()
+    print(Art)
     print("--Main Menu--")
     print("Hello, please select from the following options:")
     print('1 - View Transactions')
@@ -159,10 +160,6 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 print("Loaded.")
-
-cls()
-
-print(Art)
 mChoice = mainMenu()
 mainMenuTree(mChoice)
 
