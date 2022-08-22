@@ -1,4 +1,3 @@
-from utils.transaction_details import zipcodeTransactions
 import os
 from art import *
 import loadCreditAndLoan
@@ -10,6 +9,7 @@ from dotenv import dotenv_values
 import pandas as pd
 
 pd.options.mode.chained_assignment = None
+
 config = dotenv_values(".env")
 dbuser = config["dbuser"]
 dbpass = config["dbpass"]
