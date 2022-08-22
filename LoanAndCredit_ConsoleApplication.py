@@ -42,7 +42,7 @@ def mainMenuTree(mChoice):
                 mChoice = mainMenu()
 
             case "3":
-                loadCreditAndLoan.loadData(spark)
+                loadCreditAndLoan.loadData(spark,dbuser,dbpass)
                 mChoice = mainMenu()
 
             case "4":

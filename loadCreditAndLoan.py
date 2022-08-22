@@ -1,15 +1,10 @@
 import mysql.connector
 import pandas as pd
-from dotenv import dotenv_values
 import requests
 
 
-def loadData(spark):
+def loadData(spark, dbuser, dbpass):
     print('Beginning data import from files and API...')
-
-    config = dotenv_values(".env")
-    dbuser = config["dbuser"]
-    dbpass = config["dbpass"]
 
     # CUSTOMER DATA
     # read data
