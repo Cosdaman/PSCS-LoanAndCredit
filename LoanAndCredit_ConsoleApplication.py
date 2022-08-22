@@ -82,8 +82,7 @@ def transactionsTree(tChoice):
                 tChoice = transactionsMenu()
 
             case '2':
-                print('Transaction Type')
-                # ask transaction type
+                transaction_details.typeTransactions(spark, dbuser, dbpass)
                 tChoice = transactionsMenu()
 
             case '3':

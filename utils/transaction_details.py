@@ -49,13 +49,14 @@ def typeTransactions(spark, dbuser, dbpass):
 
     cc_pandas_df = cc_spark_df.toPandas()
     types = cc_pandas_df['TRANSACTION_TYPE'].unique()
+
     print("Select a transaction type from the following list:")
     for i in types:
-        print(i)
+        print("    "+i)
 
     search_type = input("Transaction type to search for: ")
     trans_filtered = cc_pandas_df[cc_pandas_df.TRANSACTION_TYPE.isin(
-        [search_type.Title()])]
+        [search_type.title()])]
     print(trans_filtered)
 
     input('Press enter to continue...')
