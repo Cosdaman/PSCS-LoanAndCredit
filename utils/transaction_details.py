@@ -1,5 +1,3 @@
-from re import search
-
 
 def zipcodeTransactions(spark, dbuser, dbpass):
     cust_spark_df = spark.read.format("jdbc").options(driver="com.mysql.cj.jdbc.Driver",
