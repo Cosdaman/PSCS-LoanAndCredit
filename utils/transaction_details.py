@@ -62,5 +62,37 @@ def typeTransactions(spark, dbuser, dbpass):
 
 
 def stateTransactions(spark, dbuser, dbpass):
+
+    cc_spark_df = spark.read.format("jdbc").options(driver="com.mysql.cj.jdbc.Driver",
+                                                    user=dbuser,
+                                                    password=dbpass,
+                                                    url="jdbc:mysql://localhost:3306/creditcard_capstone",
+                                                    dbtable="creditcard_capstone.CDW_SAPP_CREDIT_CARD").load()
+
+    branch_spark_df = spark.read.format("jdbc").options(driver="com.mysql.cj.jdbc.Driver",
+                                                        user=dbuser,
+                                                        password=dbpass,
+                                                        url="jdbc:mysql://localhost:3306/creditcard_capstone",
+                                                        dbtable="creditcard_capstone.CDW_SAPP_BRANCH").load()
+
+    cc_pandas_df = cc_spark_df.toPandas()
+    branch_pandas_df = branch_spark_df.toPandas()
+
+    print("Choose a state to view data for transactions.")
+    print("Please format your choice of state in its two letter abbreviations.")
+    print("Example: Washington would be entered as 'WA'. ")
+    state = input("State data to view: ")
+    state = state.upper()
+
+    branch_code_df = branch_pandas_df[branch_pandas_df['BRANCH_STATE'] == state]
+    branch_codes = branch_code_df['BRANCH_CODE'].to_numpy()
+    trans_filtered = cc_pandas_df[cc_pandas_df.BRANCH_CODE.isin(branch_codes)]
+    count = trans_filtered['TRANSACTION_ID'].count()
+    sum = trans_filtered['TRANSACTION_VALUE'].sum()
+
+    print(f"The transaction data for the state of {state} is as follows:")
+    print(f"Number of Transactions: {count}")
+    print(f"Total value of transactions: {sum}")
+
     input('Press enter to continue...')
     return 0

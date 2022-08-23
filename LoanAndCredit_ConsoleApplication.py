@@ -86,8 +86,7 @@ def transactionsTree(tChoice):
                 tChoice = transactionsMenu()
 
             case '3':
-                print('Branches in a certain state')
-                # ask for state
+                transaction_details.stateTransactions(spark,dbuser,dbpass)
                 tChoice = transactionsMenu()
 
             case "0":
