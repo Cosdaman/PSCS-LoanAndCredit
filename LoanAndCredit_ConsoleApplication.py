@@ -86,7 +86,7 @@ def transactionsTree(tChoice):
                 tChoice = transactionsMenu()
 
             case '3':
-                transaction_details.stateTransactions(spark,dbuser,dbpass)
+                transaction_details.stateTransactions(spark, dbuser, dbpass)
                 tChoice = transactionsMenu()
 
             case "0":
@@ -119,8 +119,7 @@ def customerTree(cChoice):
                 cChoice = customerMenu()
 
             case '2':
-                # ask ssn
-                print('modify details')
+                customer_details.modifyCustDetails(spark, dbuser, dbpass)
                 cChoice = customerMenu()
 
             case '3':
