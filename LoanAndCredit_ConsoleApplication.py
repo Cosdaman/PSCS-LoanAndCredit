@@ -123,8 +123,7 @@ def customerTree(cChoice):
                 cChoice = customerMenu()
 
             case '3':
-                # ask creditcard number, month, year
-                print('generate monthly bill')
+                customer_details.monthlyBill(spark, dbuser, dbpass)
                 cChoice = customerMenu()
 
             case '4':

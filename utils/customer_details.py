@@ -58,6 +58,30 @@ def modifyCustDetails(spark, dbuser, dbpass):
 
 
 def monthlyBill(spark, dbuser, dbpass):
+
+    cc_spark_df = spark.read.format("jdbc").options(driver="com.mysql.cj.jdbc.Driver",
+                                                    user=dbuser,
+                                                    password=dbpass,
+                                                    url="jdbc:mysql://localhost:3306/creditcard_capstone",
+                                                    dbtable="creditcard_capstone.CDW_SAPP_CREDIT_CARD").load()
+
+    cc_pandas_df = cc_spark_df.toPandas()
+    print('Input details in order to generate the bill for.')
+    cc_no = input("Credit Card Number: ")
+    year = input("Year: ")
+    month = input("Month: ")
+
+    cc_filtered = cc_pandas_df[cc_pandas_df['CUST_CC_NO'] == cc_no]
+    cc_filtered['YEAR'] = cc_filtered['TIMEID'].str[:4]
+    cc_filtered['MONTH'] = cc_filtered['TIMEID'].str[4:6]
+    cc_filtered = cc_filtered[cc_filtered.MONTH.isin([month])]
+    cc_filtered = cc_filtered[cc_filtered.YEAR.isin([year])]
+    
+    print(f"Statement for {cc_no} for the month of {month}, year {year}")
+    print(cc_filtered.to_string())
+    sum = cc_filtered['TRANSACTION_VALUE'].sum()
+    print(f"Total value of transactions: {sum}")
+
     input('Press enter to continue...')
     return 0
 
