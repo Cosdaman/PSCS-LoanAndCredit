@@ -127,8 +127,8 @@ def customerTree(cChoice):
                 cChoice = customerMenu()
 
             case '4':
-                # ask first date and second date, show format
-                print('display transactions')
+                customer_details.custTransactionsTwoDates(
+                    spark, dbuser, dbpass)
                 cChoice = customerMenu()
 
             case "0":
@@ -141,11 +141,14 @@ def customerTree(cChoice):
 
 
 def statusCodeApi():
+    cls()
     x = requests.get(
         'https://raw.githubusercontent.com/platformps/LoanDataset/main/loan_data.json')
 
-    print('Status code:', x.status_code)
+    print('API Status code:', x.status_code)
     x.close()
+    input('Press enter to continue...')
+    return 0
 
 
 intro = "LOAN      AND     CREDIT"
