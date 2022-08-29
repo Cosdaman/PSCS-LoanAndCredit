@@ -146,6 +146,7 @@ def statusCodeApi():
         'https://raw.githubusercontent.com/platformps/LoanDataset/main/loan_data.json')
 
     print('API Status code:', x.status_code)
+    print(f'Message: {x.reason}')
     x.close()
     input('Press enter to continue...')
     return 0
