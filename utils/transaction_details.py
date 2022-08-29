@@ -32,7 +32,13 @@ def zipcodeTransactions(spark, dbuser, dbpass):
     trans_filtered = trans_filtered[trans_filtered.YEAR.isin([year])]
     trans_filtered = trans_filtered.sort_values(by=['DAY'])
 
-    print(trans_filtered.to_string())
+    if(trans_filtered.empty):
+        print("Error:")
+        print('One or more of your inputs were invalid or the data does not exist in the database, please try again.')
+
+    else:
+        print(trans_filtered.to_string())
+
     input('Press enter to continue...')
     return 0
 
@@ -55,7 +61,13 @@ def typeTransactions(spark, dbuser, dbpass):
     search_type = input("Transaction type to search for: ")
     trans_filtered = cc_pandas_df[cc_pandas_df.TRANSACTION_TYPE.isin(
         [search_type.title()])]
-    print(trans_filtered)
+
+    if(trans_filtered.empty):
+        print("Error:")
+        print('One or more of your inputs were invalid or the data does not exist in the database, please try again.')
+
+    else:
+        print(trans_filtered.to_string())
 
     input('Press enter to continue...')
     return 0
@@ -90,9 +102,14 @@ def stateTransactions(spark, dbuser, dbpass):
     count = trans_filtered['TRANSACTION_ID'].count()
     sum = trans_filtered['TRANSACTION_VALUE'].sum()
 
-    print(f"The transaction data for the state of {state} is as follows:")
-    print(f"Number of Transactions: {count}")
-    print(f"Total value of transactions: {sum}")
+    if(trans_filtered.empty):
+        print("Error:")
+        print('One or more of your inputs were invalid or the data does not exist in the database, please try again.')
+
+    else:
+        print(f"The transaction data for the state of {state} is as follows:")
+        print(f"Number of Transactions: {count}")
+        print(f"Total value of transactions: {sum}")
 
     input('Press enter to continue...')
     return 0

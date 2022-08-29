@@ -9,7 +9,11 @@ def checkCustDetails(spark, dbuser, dbpass):
     print("Enter customer SSN to check details...")
     ssn = input("SSN: ")
     res = cust_pandas_df[cust_pandas_df['SSN'] == int(ssn)]
-    print(res)
+    if(res.empty):
+        print("Error:")
+        print('One or more of your inputs were invalid or the data does not exist in the database, please try again.')
+    else:
+        print(res)
     input('Press enter to continue...')
     return 0
 
@@ -29,7 +33,13 @@ def modifyCustDetails(spark, dbuser, dbpass):
                                            url="jdbc:mysql://localhost:3306/creditcard_capstone",
                                            dbtable=query).load()
 
-    print(df.show())
+    if(len(df.head(1)) == 0):
+        print("Error:")
+        print('One or more of your inputs were invalid or the data does not exist in the database, please try again.')
+        input('Press enter to continue...')
+        return 0
+
+    df.show()
 
     print('Which data would you like to change?')
     print('Enter the data category exactly as presented: ')
@@ -77,6 +87,12 @@ def monthlyBill(spark, dbuser, dbpass):
     cc_filtered = cc_filtered[cc_filtered.MONTH.isin([month])]
     cc_filtered = cc_filtered[cc_filtered.YEAR.isin([year])]
 
+    if(cc_filtered.empty):
+        print("Error:")
+        print('One or more of your inputs were invalid or the data does not exist in the database, please try again.')
+        input('Press enter to continue...')
+        return 0
+
     print(f"Statement for {cc_no} for the month of {month}, year {year}")
     print(cc_filtered.to_string())
     sum = cc_filtered['TRANSACTION_VALUE'].sum()
@@ -107,7 +123,11 @@ def custTransactionsTwoDates(spark, dbuser, dbpass):
     cc_filtered = cc_pandas_df[cc_pandas_df['CUST_CC_NO'] == cc_no]
     cc_filtered = cc_filtered[cc_filtered['TIMEID'].between(date1, date2)]
 
-    print(cc_filtered.sort_values('TIMEID').to_string())
+    if(cc_filtered.empty):
+        print("Error:")
+        print('One or more of your inputs were invalid or the data does not exist in the database, please try again.')
+    else:
+        print(cc_filtered.sort_values('TIMEID').to_string())
 
     input('Press enter to continue...')
     return 0
