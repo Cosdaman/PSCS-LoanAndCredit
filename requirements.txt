@@ -1,0 +1,6 @@
+art==5.7
+mysql_connector_repackaged==0.3.1
+pandas==1.4.3
+pyspark==3.3.0
+python-dotenv==0.20.0
+requests==2.28.1
