@@ -32,7 +32,7 @@ def zipcodeTransactions(spark, dbuser, dbpass):
     trans_filtered = trans_filtered[trans_filtered.YEAR.isin([year])]
     trans_filtered = trans_filtered.sort_values(by=['DAY'])
 
-    print(trans_filtered)
+    print(trans_filtered.to_string())
     input('Press enter to continue...')
     return 0
 
